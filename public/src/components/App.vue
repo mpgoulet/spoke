@@ -18,51 +18,33 @@
 
 
 <script>
-  import CreateTodo from './CreateTodo.vue';
-  
-  import ListTodo from './ListTodo.vue';
-  
-  
-  
-  export default {
-  
-    name: 'app',
-  
-    data() {
-  
-      return {}
-  
-    },
-  
-    components: {
-  
-      CreateTodo,
-  
-      ListTodo
-  
-    },
-  
-  
-  
+import CreateTodo from "./CreateTodo.vue";
+import ListTodo from "./ListTodo.vue";
+
+export default {
+  name: "app",
+
+  data() {
+    return {};
+  },
+
+  components: {
+    CreateTodo,
+
+    ListTodo
   }
+};
 </script>
 
 
 <style>
-  .fade-enter-active,
-  
-  .fade-leave-active {
-  
-    transition: opacity .5s
-  
-  }
-  
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
 
-  .fade-enter,
-  
-  .fade-leave-active {
-  
-    opacity: 0
-  
-  }
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
 </style>

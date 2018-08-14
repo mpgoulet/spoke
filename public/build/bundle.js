@@ -10177,24 +10177,18 @@ module.exports = defaults;
 
 
 
-
 /* harmony default export */ __webpack_exports__["a"] = ({
-
-  name: 'app',
+  name: "app",
 
   data() {
-
     return {};
   },
 
   components: {
-
     CreateTodo: __WEBPACK_IMPORTED_MODULE_0__CreateTodo_vue__["a" /* default */],
 
     ListTodo: __WEBPACK_IMPORTED_MODULE_1__ListTodo_vue__["a" /* default */]
-
   }
-
 });
 
 /***/ }),
@@ -10231,17 +10225,16 @@ module.exports = defaults;
 /* harmony default export */ __webpack_exports__["a"] = ({
   data() {
     return {
-      todo: '',
+      todo: "",
       typing: false
     };
   },
 
   methods: {
-
     addTodo(event) {
       if (event) event.preventDefault();
 
-      let url = 'http://localhost:4000/api/add';
+      let url = "http://localhost:4000/api/add";
       let param = {
         name: this.todo,
         done: 0
@@ -10257,17 +10250,13 @@ module.exports = defaults;
     },
 
     clearTodo() {
-
-      this.todo = '';
+      this.todo = "";
     },
 
     refreshTodo() {
-
       __WEBPACK_IMPORTED_MODULE_1__bus_js__["a" /* default */].$emit("refreshTodo");
     }
-
   }
-
 });
 
 /***/ }),
@@ -10810,71 +10799,55 @@ const bus = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a();
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
+  data() {
+    return {
+      todos: []
+    };
+  },
 
-    data() {
+  created: function () {
+    this.fetchTodo();
 
-        return {
+    this.listenToEvents();
+  },
 
-            todos: []
+  methods: {
+    fetchTodo() {
+      let uri = "http://localhost:4000/api/all";
 
-        };
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(uri).then(response => {
+        this.todos = response.data;
+      });
     },
 
-    created: function () {
+    updateTodo(todo) {
+      let id = todo._id;
 
-        this.fetchTodo();
+      let uri = "http://localhost:4000/api/update/" + id;
 
-        this.listenToEvents();
+      todo.editing = false;
+
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(uri, todo).then(response => {
+        console.log(response);
+      }).catch(error => {
+        console.log(error);
+      });
     },
 
-    methods: {
+    deleteTodo(id) {
+      let uri = "http://localhost:4000/api/delete/" + id;
 
-        fetchTodo() {
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(uri);
 
-            let uri = 'http://localhost:4000/api/all';
+      this.fetchTodo();
+    },
 
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(uri).then(response => {
-
-                this.todos = response.data;
-            });
-        },
-
-        updateTodo(todo) {
-
-            let id = todo._id;
-
-            let uri = 'http://localhost:4000/api/update/' + id;
-
-            todo.editing = false;
-
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(uri, todo).then(response => {
-
-                console.log(response);
-            }).catch(error => {
-
-                console.log(error);
-            });
-        },
-
-        deleteTodo(id) {
-
-            let uri = 'http://localhost:4000/api/delete/' + id;
-
-            __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(uri);
-
-            this.fetchTodo();
-        },
-
-        listenToEvents() {
-
-            __WEBPACK_IMPORTED_MODULE_1__bus_js__["a" /* default */].$on('refreshTodo', $event => {
-
-                this.fetchTodo(); //update todo
-            });
-        }
-
+    listenToEvents() {
+      __WEBPACK_IMPORTED_MODULE_1__bus_js__["a" /* default */].$on("refreshTodo", $event => {
+        this.fetchTodo(); //update todo
+      });
     }
-
+  }
 });
 
 /***/ }),
@@ -11094,7 +11067,7 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active,\n\n.fade-leave-active {\n\n  transition: opacity .5s\n}\n.fade-enter,\n\n.fade-leave-active {\n\n  opacity: 0\n}\n", ""]);
+exports.push([module.i, "\n.fade-enter-active,\n.fade-leave-active {\n  transition: opacity 0.5s;\n}\n.fade-enter,\n.fade-leave-active {\n  opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -12198,7 +12171,7 @@ exports = module.exports = __webpack_require__(1)(undefined);
 
 
 // module
-exports.push([module.i, "\n.delete__icon[data-v-eaf2948c] {\n}\n.todo__done[data-v-eaf2948c] {\n\n    text-decoration: line-through !important\n}\n.no_border_left_right[data-v-eaf2948c] {\n\n    border-left: 0px;\n\n    border-right: 0px;\n}\n.flat_form[data-v-eaf2948c] {\n\n    border-radius: 0px;\n}\n.mrb-10[data-v-eaf2948c] {\n\n    margin-bottom: 10px;\n}\n.addon-left[data-v-eaf2948c] {\n\n    background-color: none !important;\n\n    border-left: 0px !important;\n\n    cursor: pointer !important;\n}\n.addon-right[data-v-eaf2948c] {\n\n    background-color: none !important;\n\n    border-right: 0px !important;\n}\n", ""]);
+exports.push([module.i, "\n.delete__icon[data-v-eaf2948c] {\n}\n.todo__done[data-v-eaf2948c] {\n  text-decoration: line-through !important;\n}\n.no_border_left_right[data-v-eaf2948c] {\n  border-left: 0px;\n\n  border-right: 0px;\n}\n.flat_form[data-v-eaf2948c] {\n  border-radius: 0px;\n}\n.mrb-10[data-v-eaf2948c] {\n  margin-bottom: 10px;\n}\n.addon-left[data-v-eaf2948c] {\n  background-color: none !important;\n\n  border-left: 0px !important;\n\n  cursor: pointer !important;\n}\n.addon-right[data-v-eaf2948c] {\n  background-color: none !important;\n\n  border-right: 0px !important;\n}\n", ""]);
 
 // exports
 
