@@ -1,2 +1,2 @@
 npm run build
-node server.js
+nodemon server.js
