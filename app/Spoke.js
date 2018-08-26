@@ -25,7 +25,7 @@ var dataset = new mongoose.Schema(
     },
 
     dataset: {
-      type: Array
+      type: Object
     }
   },
 

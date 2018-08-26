@@ -18,6 +18,9 @@
                     <input type="text" class="form-control" :class="todo.done?'todo__done':''" v-model="todo.name"
                            @keypress="todo.editing=true" @keyup.enter="updateTodo(todo)">
 
+                           <input type="text" class="form-control" :class="todo.done?'todo__done':''" v-model="todo.dataset"
+                           @keypress="todo.editing=true" @keyup.enter="updateTodo(todo)">
+
                     <span class="input-group-addon addon-left" title="Delete todo?"
                           v-on:click="deleteTodo(todo._id)">X</span>
 

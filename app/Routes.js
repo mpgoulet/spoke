@@ -4,26 +4,26 @@ var express = require("express");
 
 var spokeRoutes = express.Router();
 
-var Spoke = require("./Spoke");
+var Spoke = require("./Spoke"); //mongoose schema
 
 // get all todo items in the db
-
 spokeRoutes.route("/all").get(function(req, res, next) {
-  Spoke.find(function(err, todos) {
+  Spoke.find(function(err, datasets) {
     if (err) {
       return next(new Error(err));
     }
-
-    res.json(todos); // return all todos
+    res.json(datasets); // return all todos
   });
 });
 
 // add a todo item
 spokeRoutes.route("/add").post(function(req, res) {
+  var data = { name: "Building", data: ["Building1", "Building2"] };
   Spoke.create(
     {
       name: req.body.name,
-      done: false
+      done: false,
+      dataset: data
     },
     function(error, todo) {
       if (error) {
@@ -56,6 +56,7 @@ spokeRoutes.route("/update/:id").post(function(req, res, next) {
     } else {
       todo.name = req.body.name;
       todo.done = req.body.done;
+      todo.dataset = req.body.dataset;
 
       todo.save({
         function(error, todo) {

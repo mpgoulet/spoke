@@ -10794,6 +10794,9 @@ const bus = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a();
 //
 //
 //
+//
+//
+//
 
 
 
@@ -12284,6 +12287,41 @@ var render = function() {
                       return
                     }
                     _vm.$set(todo, "name", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: todo.dataset,
+                    expression: "todo.dataset"
+                  }
+                ],
+                staticClass: "form-control",
+                class: todo.done ? "todo__done" : "",
+                attrs: { type: "text" },
+                domProps: { value: todo.dataset },
+                on: {
+                  keypress: function($event) {
+                    todo.editing = true
+                  },
+                  keyup: function($event) {
+                    if (
+                      !("button" in $event) &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key)
+                    ) {
+                      return null
+                    }
+                    _vm.updateTodo(todo)
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(todo, "dataset", $event.target.value)
                   }
                 }
               }),
