@@ -3,7 +3,6 @@
 var express = require("express");
 
 var spokeRoutes = express.Router();
-
 var Spoke = require("./Spoke"); //mongoose schema
 
 // get all todo items in the db

@@ -1,38 +1,60 @@
+// Tririga.js - Tririga route module.
+
+var express = require("express");
+var router = express.Router();
+const log = require("./Log");
+
 const TririgaFunctions = require("./TririgaFunctions");
 const Datasets = require("./Datasets");
 
-class Tririga {
-  constructor(environment) {
-    this.environment = environment;
-    this.remote = function(environment) {
-      console.log("1.2 Started get remote");
-      const TririgaFunctions = require("./TririgaFunctions");
+this.datasets = function(environment) {
+  const Datasets = new Datasets();
+  const datasets = Datasets.getDatasets(environment);
+  return dataset;
+};
 
-      const remoteFunctions = new TririgaFunctions();
-      const remote = remoteFunctions.getFunctions(environment);
+function tririga(environment) {
+  const TririgaFunctions = require("./TririgaFunctions");
 
-      return remote;
-      // return remoteFunctions.getfunctions(environment);
-    };
-    this.datasets = function(environment) {
-      const Datasets = new Datasets();
-      const datasets = Datasets.getDatasets(environment);
-      return dataset;
-    };
-  }
+  const remoteFunctions = new TririgaFunctions();
+  const remote = remoteFunctions.getFunctions(environment);
+
+  return remote;
 }
 
-module.exports = Tririga;
+const asyncHandler = require("express-async-handler");
 
-// async function getFunctions() {
-//   const Tririga = require("./app/Tririga");
-//   const connector = new Tririga();
-//   const remote = await connector.remote({
-//     url: "http://10.211.55.3:8001/ws/TririgaWS?wsdl"
-//   });
-//   console.log("remote", remote.TririgaWS);
-//   // const Connector = require("./app/Connector");
-//   // const triConnector = new Connector(client);
-//   // console.log(triConnector.client.remote);
-// }
-// getFunctions();
+router.get(
+  "/",
+  asyncHandler(async (req, res, next) => {
+    var environment = {
+      url: "http://10.211.55.3:8001/ws/TririgaWS?wsdl",
+      context: "tririga-dev",
+      name: "TRIRIGA Dev"
+    };
+    var request = {
+      arguments: {
+        moduleName: "Location", //Location
+        objectTypeName: "triSpace", //triSpace
+        queryName: "triSpace - SOAP Test 1", //triSpace - SOAP Test 1
+        start: 1,
+        maximumResultCount: 999
+      }
+    };
+    console.log("Client started...");
+    const client = await tririga(environment);
+
+    const query = await client.runNamedQuery(
+      request,
+      (err, result, envelope, soapHeader) => {
+        console.log(envelope);
+
+        res.json(envelope);
+      }
+    );
+  })
+);
+
+router.get("/", function(req, res) {});
+
+module.exports = router;
