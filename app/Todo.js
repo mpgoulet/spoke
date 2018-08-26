@@ -1,20 +1,21 @@
-var mongoose = require('mongoose')
+var mongoose = require("mongoose");
 
 // Define collection and schema for todo Item
 
-var todo = new mongoose.Schema({
-  name: {
-    type: String
+var todo = new mongoose.Schema(
+  {
+    name: {
+      type: String
+    },
+
+    done: {
+      type: Boolean
+    }
   },
 
-  done: {
-    type: Boolean
-  }
-},
-
   {
-    collection: 'todos'
+    collection: "todos"
   }
-)
+);
 
-module.exports = mongoose.model('Todo', todo);
+module.exports = mongoose.model("Todo", todo);

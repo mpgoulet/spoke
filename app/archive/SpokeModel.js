@@ -2,14 +2,14 @@ var mongoose = require("mongoose");
 
 // Define collection and schema for todo Item
 
-var tririgaModel = new mongoose.Schema(
+var spoke = new mongoose.Schema(
   {
     name: {
       type: String
     },
 
-    datasets: {
-      type: Array
+    done: {
+      type: Boolean
     }
   },
 
@@ -18,4 +18,4 @@ var tririgaModel = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("TririgaModel", tririgaModel);
+module.exports = mongoose.model("Spoke", spoke);
