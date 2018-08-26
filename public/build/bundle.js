@@ -10218,6 +10218,9 @@ module.exports = defaults;
 //
 //
 //
+//
+//
+//
 
 
 
@@ -10226,11 +10229,29 @@ module.exports = defaults;
   data() {
     return {
       todo: "",
-      typing: false
+      typing: false,
+      dataset: ""
     };
   },
 
   methods: {
+    addDataset(event) {
+      if (event) event.preventDefault();
+
+      let url = "http://localhost:4000/api/spoke/add";
+      let param = {
+        name: this.dataset,
+        done: 0
+      };
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(url, param).then(response => {
+        this.clearSpoke();
+        this.refreshSpoke();
+        this.typing = false;
+      }).catch(error => {
+        console.log(error);
+      });
+    },
+
     addTodo(event) {
       if (event) event.preventDefault();
 
@@ -10252,9 +10273,16 @@ module.exports = defaults;
     clearTodo() {
       this.todo = "";
     },
+    clearSpoke() {
+      this.dataset = "";
+    },
 
     refreshTodo() {
       __WEBPACK_IMPORTED_MODULE_1__bus_js__["a" /* default */].$emit("refreshTodo");
+    },
+
+    refreshSpoke() {
+      __WEBPACK_IMPORTED_MODULE_1__bus_js__["a" /* default */].$emit("refreshSpoke");
     }
   }
 });
@@ -10793,6 +10821,29 @@ const bus = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a();
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -10801,17 +10852,44 @@ const bus = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a();
 /* harmony default export */ __webpack_exports__["a"] = ({
   data() {
     return {
+      datasets: [],
       todos: []
     };
   },
 
   created: function () {
     this.fetchTodo();
+    this.fetchTodo;
+
+    this.fetchTririgaModel();
+    this.fetchTririgaModel;
 
     this.listenToEvents();
   },
 
   methods: {
+    fetchSpoke() {
+      let uri = "http://localhost:4000/api/spoke/all";
+
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(uri).then(response => {
+        this.datasets = response.data;
+      });
+    },
+
+    updateSpoke(dataset) {
+      let id = dataset._id;
+
+      let uri = "http://localhost:4000/api/spoke/update/" + id;
+
+      todo.editing = false;
+
+      __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(uri, dataset).then(response => {
+        console.log(response);
+      }).catch(error => {
+        console.log(error);
+      });
+    },
+
     fetchTodo() {
       let uri = "http://localhost:4000/api/all";
 
@@ -10845,6 +10923,9 @@ const bus = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a();
     listenToEvents() {
       __WEBPACK_IMPORTED_MODULE_1__bus_js__["a" /* default */].$on("refreshTodo", $event => {
         this.fetchTodo(); //update todo
+      });
+      __WEBPACK_IMPORTED_MODULE_1__bus_js__["a" /* default */].$on("refreshSpoke", $event => {
+        this.fetchSpoke(); //update spoke
       });
     }
   }
@@ -12049,6 +12130,40 @@ var render = function() {
             }
           }),
           _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.dataset,
+                expression: "dataset"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", placeholder: "TRIRIGA data" },
+            domProps: { value: _vm.dataset },
+            on: {
+              keypress: function($event) {
+                _vm.typing = true
+              },
+              keyup: function($event) {
+                if (
+                  !("button" in $event) &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key)
+                ) {
+                  return null
+                }
+                _vm.addDataset($event)
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.dataset = $event.target.value
+              }
+            }
+          }),
+          _vm._v(" "),
           _c(
             "span",
             {
@@ -12193,14 +12308,86 @@ var render = function() {
           {
             name: "show",
             rawName: "v-show",
+            value: _vm.datasets.length > 0,
+            expression: "datasets.length>0"
+          }
+        ]
+      },
+      [_c("div", [_vm._v("AW SHIT")])]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
             value: _vm.todos.length > 0,
             expression: "todos.length>0"
           }
-        ],
-        staticClass: "col-md-12"
+        ]
       },
       [
-        _c("h3", [_vm._v("Todo Items")]),
+        _c("h3", [_vm._v("Spoke Items1")]),
+        _vm._v(" "),
+        _vm._l(_vm.datasets, function(dataset) {
+          return _c("div", [
+            _c("div", { staticClass: "input-group m-b-5" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: dataset.name,
+                    expression: "dataset.name"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text" },
+                domProps: { value: dataset.name },
+                on: {
+                  keypress: function($event) {
+                    _vm.todo.editing = true
+                  },
+                  keyup: function($event) {
+                    if (
+                      !("button" in $event) &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key)
+                    ) {
+                      return null
+                    }
+                    _vm.updateSpoke(dataset)
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(dataset, "name", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.todo.editing,
+                    expression: "todo.editing"
+                  }
+                ],
+                staticClass: "help-block small"
+              },
+              [_vm._v("Hit enter to update")]
+            )
+          ])
+        }),
+        _vm._v(" "),
+        _c("h3", [_vm._v("Todo Items2")]),
         _vm._v(" "),
         _vm._l(_vm.todos, function(todo) {
           return _c("div", { staticClass: "row mrb-10" }, [

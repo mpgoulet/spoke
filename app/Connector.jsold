@@ -1,0 +1,18 @@
+const Tririga = require("./Tririga");
+const parseString = require("xml2js").parseString;
+
+class Connector {
+  constructor(request) {
+    this.request = request;
+    this.runQuery = function() {
+      const execute = new Execute(this.request);
+      async function runQueryTwo() {
+        const queryResult = await execute.executeQuery(request);
+        //Process raw, JSON TRIRIGA query results
+      }
+      runQueryTwo(); //TODO: Correct how this is done
+    };
+  }
+}
+
+module.exports = Connector;

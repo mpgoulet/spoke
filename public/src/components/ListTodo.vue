@@ -1,9 +1,32 @@
 <template>
     <div>
 
-        <div class="col-md-12" v-show="todos.length>0">
+      <div v-show="datasets.length>0">
+        <div>AW SHIT</div>
+      </div>
 
-            <h3>Todo Items</h3>
+    <!-- <div v-show="todos.length>0"> -->
+      <div v-show="todos.length>0">
+        <h3>Spoke Items1</h3>
+
+
+            <div v-for="dataset in datasets">
+
+                <div class="input-group m-b-5">
+
+                    
+                    <input type="text" class="form-control"  v-model="dataset.name"
+                           @keypress="todo.editing=true" @keyup.enter="updateSpoke(dataset)">
+
+            
+
+                </div>
+
+                <span class="help-block small" v-show="todo.editing">Hit enter to update</span>
+
+            </div>
+
+               <h3>Todo Items2</h3>
 
             <div class="row mrb-10" v-for="todo in todos">
 
@@ -52,17 +75,47 @@ import bus from "./../bus.js";
 export default {
   data() {
     return {
+      datasets: [],
       todos: []
     };
   },
 
   created: function() {
     this.fetchTodo();
+    this.fetchTodo;
+
+    this.fetchTririgaModel();
+    this.fetchTririgaModel;
 
     this.listenToEvents();
   },
 
   methods: {
+    fetchSpoke() {
+      let uri = "http://localhost:4000/api/spoke/all";
+
+      axios.get(uri).then(response => {
+        this.datasets = response.data;
+      });
+    },
+
+    updateSpoke(dataset) {
+      let id = dataset._id;
+
+      let uri = "http://localhost:4000/api/spoke/update/" + id;
+
+      todo.editing = false;
+
+      axios
+        .post(uri, dataset)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
     fetchTodo() {
       let uri = "http://localhost:4000/api/all";
 
@@ -99,6 +152,9 @@ export default {
     listenToEvents() {
       bus.$on("refreshTodo", $event => {
         this.fetchTodo(); //update todo
+      });
+      bus.$on("refreshSpoke", $event => {
+        this.fetchSpoke(); //update spoke
       });
     }
   }

@@ -5,6 +5,37 @@ var express = require("express");
 var todoRoutes = express.Router();
 
 var Todo = require("./Todo");
+//
+var TririgaModel = require("./TririgaModel");
+
+// add a todo item
+todoRoutes.route("/spoke/add").post(function(req, res) {
+  TririgaModel.create(
+    {
+      name: req.body.name,
+      done: false
+    },
+    function(error, tririgaModel) {
+      if (error) {
+        res.status(400).send("Unable to create todo list");
+      }
+      res.status(200).json(tririgaModel);
+    }
+  );
+});
+//
+
+// get all todo items in the db
+
+todoRoutes.route("/spoke/all").get(function(req, res, next) {
+  TririgaModel.find(function(err, datasets) {
+    if (err) {
+      return next(new Error(err));
+    }
+
+    res.json(datasets); // return all todos
+  });
+});
 
 // get all todo items in the db
 

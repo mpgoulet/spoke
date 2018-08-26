@@ -1,6 +1,6 @@
 // "use strict";
-// const Environments = require("./Environments");
-const Connector = require("./Connector");
+const Tririga = require("./Tririga.js");
+const XMLParse = require("./parseXML");
 
 const request = {
   name: "TRI DEV Run Query",
@@ -14,10 +14,42 @@ const request = {
   }
 };
 
-const connector = new Connector(request);
-const hey = connector.runQuery();
+async function runQuery(request) {
+  const tririga = new Tririga();
+  const client = await tririga.runNamedQuery(request);
+  console.log(client);
+  process.exit();
+  const what = await client.TririgaWS.TririgaWSPort.getModuleId(
+    { moduleName: "triPeople" },
+    (err, result, envelope, soapHeader) => {
+      result.out.Module.forEach(module => {
+        async function getGUIs(module) {
+          const guis = await client.TririgaWS.TririgaWSPort.getGUIs(
+            { objectTypeId: module.id },
+            (err, result, envelope, soapHeader) => {
+              console.log(result);
+            }
+          );
+        }
+        getGUIs(module);
+      });
+    }
+  );
 
-module.exports = connector;
+  // process.exit();
+  // const result = new XMLParse(queryResults.xml).xml2js;
+  // console.log(result);
+  //     const queryData =
+  //       res.runNamedQueryResponse.out.queryResponseHelpers
+  //         .QueryResponseHelper.queryResponseColumns;
+
+  // console.log(queryResults);
+  return true;
+}
+
+runQuery(request);
+
+module.exports = "Ok";
 
 //*** BASED ON Todo.js and establishes express endpoints and performs functions */
 // var express = require("express");

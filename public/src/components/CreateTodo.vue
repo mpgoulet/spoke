@@ -9,6 +9,9 @@
   
         <input type="text" class="form-control" @keypress="typing=true" placeholder="What do you want to do?" v-model="todo" @keyup.enter="addTodo($event)">
   
+   <input type="text" class="form-control" @keypress="typing=true" placeholder="TRIRIGA data" v-model="dataset" @keyup.enter="addDataset($event)">
+  
+
         <span class="help-block small text-center" v-show="typing">Hit enter to save</span>
   
       </div>
@@ -25,11 +28,32 @@ export default {
   data() {
     return {
       todo: "",
-      typing: false
+      typing: false,
+      dataset: ""
     };
   },
 
   methods: {
+    addDataset(event) {
+      if (event) event.preventDefault();
+
+      let url = "http://localhost:4000/api/spoke/add";
+      let param = {
+        name: this.dataset,
+        done: 0
+      };
+      axios
+        .post(url, param)
+        .then(response => {
+          this.clearSpoke();
+          this.refreshSpoke();
+          this.typing = false;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
     addTodo(event) {
       if (event) event.preventDefault();
 
@@ -54,9 +78,16 @@ export default {
     clearTodo() {
       this.todo = "";
     },
+    clearSpoke() {
+      this.dataset = "";
+    },
 
     refreshTodo() {
       bus.$emit("refreshTodo");
+    },
+
+    refreshSpoke() {
+      bus.$emit("refreshSpoke");
     }
   }
 };

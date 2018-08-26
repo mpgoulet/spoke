@@ -16,7 +16,20 @@ var bodyParser = require("body-parser");
 // Require configuration file defined in app/Config.js
 var config = require("./app/Config");
 
-var spoke = require("./app/Spoke");
+const Tririga = require("./app/Tririga");
+const tririga = new Tririga();
+var environment = {
+  url: "http://10.211.55.3:8001/ws/TririgaWS?wsdl",
+  context: "tririga-dev",
+  name: "TRIRIGA Dev"
+};
+
+async function loadModules() {
+  const remote = await tririga.remote(environment);
+  console.log(remote);
+}
+
+loadModules();
 
 // Connect to database
 mongoose.connect(config.DB);
