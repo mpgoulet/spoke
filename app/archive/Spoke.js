@@ -1,6 +1,6 @@
 // "use strict";
 const Tririga = require("./Tririga.js");
-const XMLParse = require("./parseXML");
+const XMLParse = require("./ParseXML");
 
 const request = {
   name: "TRI DEV Run Query",

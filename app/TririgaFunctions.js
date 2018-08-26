@@ -1,5 +1,5 @@
 const soap = require("strong-soap").soap;
-const XMLParse = require("./parseXML");
+const XMLParse = require("./ParseXML");
 const Client = require("./Client.js");
 
 class TririgaFunctions {

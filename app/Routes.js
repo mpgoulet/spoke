@@ -2,14 +2,14 @@
 
 var express = require("express");
 
-var todoRoutes = express.Router();
+var spokeRoutes = express.Router();
 
-var Todo = require("./Todo");
+var Spoke = require("./Spoke");
 
 // get all todo items in the db
 
-todoRoutes.route("/all").get(function(req, res, next) {
-  Todo.find(function(err, todos) {
+spokeRoutes.route("/all").get(function(req, res, next) {
+  Spoke.find(function(err, todos) {
     if (err) {
       return next(new Error(err));
     }
@@ -19,8 +19,8 @@ todoRoutes.route("/all").get(function(req, res, next) {
 });
 
 // add a todo item
-todoRoutes.route("/add").post(function(req, res) {
-  Todo.create(
+spokeRoutes.route("/add").post(function(req, res) {
+  Spoke.create(
     {
       name: req.body.name,
       done: false
@@ -36,9 +36,9 @@ todoRoutes.route("/add").post(function(req, res) {
 
 // delete a todo item
 
-todoRoutes.route("/delete/:id").get(function(req, res, next) {
+spokeRoutes.route("/delete/:id").get(function(req, res, next) {
   var id = req.params.id;
-  Todo.findByIdAndRemove(id, function(err, todo) {
+  Spoke.findByIdAndRemove(id, function(err, todo) {
     if (err) {
       return next(new Error("Todo was not found"));
     }
@@ -48,9 +48,9 @@ todoRoutes.route("/delete/:id").get(function(req, res, next) {
 
 // update a todo item
 
-todoRoutes.route("/update/:id").post(function(req, res, next) {
+spokeRoutes.route("/update/:id").post(function(req, res, next) {
   var id = req.params.id;
-  Todo.findById(id, function(error, todo) {
+  Spoke.findById(id, function(error, todo) {
     if (error) {
       return next(new Error("Todo was not found"));
     } else {
@@ -70,4 +70,4 @@ todoRoutes.route("/update/:id").post(function(req, res, next) {
   });
 });
 
-module.exports = todoRoutes;
+module.exports = spokeRoutes;

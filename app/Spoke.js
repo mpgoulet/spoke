@@ -18,4 +18,20 @@ var todo = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Todo", todo);
+var dataset = new mongoose.Schema(
+  {
+    name: {
+      type: String
+    },
+
+    dataset: {
+      type: Array
+    }
+  },
+
+  {
+    collection: "datasets"
+  }
+);
+
+module.exports = mongoose.model("Dataset", dataset);

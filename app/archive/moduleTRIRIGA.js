@@ -1,5 +1,5 @@
 var soap = require("strong-soap").soap;
-const XMLParse = require("./parseXML");
+const XMLParse = require("./ParseXML");
 
 class Client {
   constructor(request) {

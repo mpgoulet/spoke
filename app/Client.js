@@ -1,6 +1,4 @@
 var soap = require("strong-soap").soap;
-// const XMLParse = require("./parseXML");
-// const Sources = require("./Sources");
 
 class Client {
   constructor(environment) {
