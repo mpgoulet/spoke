@@ -2,10 +2,11 @@
 
 var express = require("express");
 var router = express.Router();
-const log = require("./Log");
 
 const TririgaFunctions = require("./TririgaFunctions");
 const Datasets = require("./Datasets");
+
+const asyncHandler = require("express-async-handler");
 
 this.datasets = function(environment) {
   const Datasets = new Datasets();
@@ -14,15 +15,11 @@ this.datasets = function(environment) {
 };
 
 function tririga(environment) {
-  const TririgaFunctions = require("./TririgaFunctions");
-
   const remoteFunctions = new TririgaFunctions();
   const remote = remoteFunctions.getFunctions(environment);
 
   return remote;
 }
-
-const asyncHandler = require("express-async-handler");
 
 router.get(
   "/",

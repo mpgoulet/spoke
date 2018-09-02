@@ -16,20 +16,26 @@ var bodyParser = require("body-parser");
 // Require configuration file defined in app/Config.js
 var config = require("./app/Config");
 
-// const Tririga = require("./app/Tririga");
-// const tririga = new Tririga();
-// var environment = {
-//   url: "http://10.211.55.3:8001/ws/TririgaWS?wsdl",
-//   context: "tririga-dev",
-//   name: "TRIRIGA Dev"
-// };
+const thisConfig = {
+  platforms: [
+    {
+      name: "TRIRIGA Development",
+      module: "Tririga",
+      endpoint: "tririga",
+      groups: { group: "TRIRIGA", group: "IWMS" },
+      about: {},
+      triVersion: {},
+      connection: { url: "http://10.211.55.3:8001/ws/TririgaWS?wsdl" }
+    }
+  ]
+};
 
-// async function loadModules() {
-//   const remote = await tririga.remote(environment);
-//   console.log(remote);
-// }
+var SpokeConfig = require("./app/spokeConfig");
+const spokeConfig = new SpokeConfig(thisConfig);
 
-// loadModules();
+spokeConfig.platforms.forEach(platform => {
+  app.use("/" + platform.endpoint, platform.module);
+});
 
 // Connect to database
 mongoose.connect(config.DB);
@@ -58,8 +64,8 @@ app.use("/log", apiRoutes);
 var wikiRoutes = require("./app/wiki");
 app.use("/wiki", wikiRoutes);
 
-var tririgaRoutes = require("./app/Tririga");
-app.use("/tririga", tririgaRoutes);
+// var tririgaRoutes = require("./app/Tririga");
+// app.use("/tririga", tririgaRoutes);
 
 var todoRoutes = require("./app/Routes");
 
