@@ -2,7 +2,7 @@ class SpokeConfig {
   constructor(spokeConfig) {
     var platforms = [];
     spokeConfig.platforms.forEach(platform => {
-      module = require(("./" + platform.module)("test"));
+      module = require("./" + platform.module);
       platforms.push({
         module: module,
         endpoint: platform.endpoint,
